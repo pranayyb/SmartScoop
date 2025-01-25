@@ -1,4 +1,4 @@
-# AI Shopping Assistant
+# SmartScoop - AI Shopping Assistant
 
 A sophisticated shopping assistant that leverages AI to provide personalized shopping experiences, powered by LangChain and various machine learning components.
 
@@ -9,17 +9,8 @@ A sophisticated shopping assistant that leverages AI to provide personalized sho
 - Multi-platform product search (Amazon, eBay)
 - Price tracking and alerts
 - Personalized product recommendations
-- Purchase history tracking
 - Budget management
-
-### Advanced Capabilities
-
-- Virtual try-on for clothing and accessories
-- Sustainable shopping metrics
-- Digital wardrobe management
-- Social shopping features
 - Seasonal shopping optimization
-- Smart deal notifications
 
 ### Technical Features
 
@@ -43,15 +34,15 @@ You'll need the following API keys:
 
 - Amazon Product API
 - eBay API
-- OpenAI API
+- Groq API
 
 ### Installation
 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/ai-shopping-assistant.git
-cd ai-shopping-assistant
+git clone https://github.com/pranayyb/SmartScoop.git
+cd SmartScoop
 ```
 
 2. Create and activate a virtual environment:
@@ -73,7 +64,7 @@ pip install -r requirements.txt
 DB_NAME=shopping_assistant.db
 AMAZON_API_KEY=your_amazon_api_key
 EBAY_API_KEY=your_ebay_api_key
-OPENAI_API_KEY=your_openai_api_key
+GROQ_API_KEY=your_openai_api_key
 ```
 
 ### Running the Application
@@ -108,38 +99,24 @@ async def track_price():
     print(response)
 ```
 
-### Virtual Try-On
-
-```python
-async def try_on_item():
-    app = ShoppingAssistantApp(config)
-    response = await app.handle_message(
-        user_id="user123",
-        message="Show me how this jacket would look on me"
-    )
-    print(response)
-```
-
 ## 🏗️ Project Structure
 
 ```
-ai-shopping-assistant/
-├── main.py                 # Main application file
-├── requirements.txt        # Project dependencies
-├── .env                    # Environment variables
-├── README.md              # Project documentation
-└── shopping_assistant/
+SmartScoop/
+├── main.py                         # Main application file
+├── requirements.txt                # Project dependencies
+├── .env                            # Environment variables
+├── README.md                       # Project documentation
+├── .gitignore                      # Git-Ignore files
+└── SmartScoop/
     ├── __init__.py
-    ├── database/          # Database management
-    ├── product_search/    # Product search implementations
-    ├── recommendation/    # Recommendation engine
-    ├── user_profile/      # User profile management
-    ├── price_tracking/    # Price tracking system
-    ├── wardrobe/          # Wardrobe management
-    ├── sustainability/    # Sustainability metrics
-    ├── virtual_tryon/     # Virtual try-on feature
-    ├── social/            # Social shopping features
-    └── utils/             # Utility functions
+    ├── database.py                 # Database management
+    ├── product_search.py           # Product search implementations
+    ├── recommendation.py           # Recommendation engine
+    ├── user_profile.py             # User profile management
+    ├── agent.py                    # Agent management
+    ├── seasonal_discount.py        # Seasonal discount
+    └── app.py                      # Application
 ```
 
 ## 🔧 Configuration
@@ -149,31 +126,7 @@ The application can be configured through environment variables or a configurati
 - `DB_NAME`: Database file name
 - `AMAZON_API_KEY`: Amazon Product API key
 - `EBAY_API_KEY`: eBay API key
-- `OPENAI_API_KEY`: OpenAI API key
-- `LOG_LEVEL`: Logging level (default: INFO)
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch:
-
-```bash
-git checkout -b feature/amazing-feature
-```
-
-3. Commit your changes:
-
-```bash
-git commit -m 'Add amazing feature'
-```
-
-4. Push to the branch:
-
-```bash
-git push origin feature/amazing-feature
-```
-
-5. Open a Pull Request
+- `GROQ_API_KEY`: OpenAI API key
 
 ## 📝 API Documentation
 
@@ -215,13 +168,6 @@ def get_recommendations(user_id: str, category: str = None) -> List[Dict]
 - Input validation and sanitization
 - Rate limiting on API endpoints
 
-## ⚠️ Known Limitations
-
-- Virtual try-on currently supports limited product categories
-- Some features require specific API access levels
-- Price tracking updates occur hourly
-- Limited to certain geographical regions based on API availability
-
 ## 🔮 Future Enhancements
 
 - Integration with more e-commerce platforms
@@ -238,11 +184,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- Your Name - _Initial work_
+- Pranay Buradkar - _Initial work_
 
 ## 🙏 Acknowledgments
 
-- OpenAI for GPT models
+- GROQ for GPT models
 - LangChain community
 - Contributors and testers
 
@@ -253,17 +199,3 @@ For support, please:
 1. Check the documentation
 2. Search existing issues
 3. Open a new issue if needed
-
-## 🔄 Version History
-
-- 1.0.0
-  - Initial release
-  - Basic shopping features
-- 1.1.0
-  - Added virtual try-on
-  - Enhanced recommendation system
-
----
-
-_Note: This project is under active development. Features and documentation may be updated frequently._
-# SmartScoop

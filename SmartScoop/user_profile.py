@@ -30,10 +30,10 @@ class UserProfileManager:
                         style_profile=json.loads(user_data[2]),
                         budget_limits=json.loads(user_data[3]),
                     )
-            return None
+            return []
         except sqlite3.DatabaseError as e:
             print(f"Error occurred while fetching the user profile: {e}")
-            return None
+            return []
 
     def update_user_profile(self, profile: UserProfile):
         try:

@@ -11,6 +11,7 @@ from langchain.memory import ConversationBufferMemory
 from langchain.tools import Tool
 from langchain import hub
 import asyncio
+import json
 
 
 class ProductQuery(BaseModel):
@@ -60,22 +61,28 @@ class ShoppingAssistantAgent:
             Tool(
                 name="ProductSearch",
                 func=lambda query: asyncio.run(self._search_products(query)),
-                description="Search for products across multiple platforms. Input should be a single query.",
+                description="Search for products across multiple platforms. Input should be a single query. make sure you provide links and organized data",
             ),
             Tool(
                 name="GetRecommendations",
-                func=lambda args: asyncio.run(self._get_recommendations(args)),
-                description="Get personalized product recommendations based on user history and preferences. args should be user_id and category if given and pass as a dictionary.",
+                func=lambda args: asyncio.run(
+                    self._get_recommendations(json.loads(args))
+                ),
+                description='Get personalized product recommendations based on user history and preferences. args should be "userid" and "category" if given and pass as a dictionary. do not pass escape characters!',
             ),
             Tool(
                 name="SeasonalDiscount",
-                func=lambda args: asyncio.run(self._check_seasonal_discount(args)),
-                description="Analyze if a product might go on sale soon and if the user should wait. args should be list of dictionaries of products",
+                func=lambda args: asyncio.run(
+                    self._check_seasonal_discount(json.loads(args))
+                ),
+                description='Analyze if a product might go on sale soon and if the user should wait. Should contain "productInfo" as a dictionary.',
             ),
             Tool(
                 name="UpdatePreferences",
-                func=lambda args: asyncio.run(self._update_preferences(args)),
-                description="Update user shopping preferences and style profile.",
+                func=lambda args: asyncio.run(
+                    self._update_preferences(json.loads(args))
+                ),
+                description='Update user shopping preferences and style profile. should contain "userid" and "preferences" as a dictionary.',
             ),
         ]
 
@@ -106,9 +113,13 @@ class ShoppingAssistantAgent:
 
         return "Found these products:\n" + "\n".join(formatted_results)
 
-    async def _get_recommendations(self, args: RecommendationQuery) -> str:
-        recommendations = await self.recommendation_engine.get_recommendations(
-            args.user_id, args.category
+    async def _get_recommendations(self, args: Dict[str, Any]) -> str:
+        user_id = args.get("userid")
+        category = args.get("category")
+
+        # REMOVE `await` here
+        recommendations = self.recommendation_engine.get_recommendations(
+            user_id, category
         )
 
         if not recommendations:
@@ -123,7 +134,7 @@ class ShoppingAssistantAgent:
         )
 
     async def _check_seasonal_discount(self, args: ProductInfo) -> str:
-        result = await self.seasonal_optimizer.should_wait_for_sale(args.product_info)
+        result = await self.seasonal_optimizer.should_wait_for_sale(args.productInfo)
         if result["should_wait"]:
             return (
                 f"I recommend waiting for {result['sale_event']} on {result['estimated_sale_date']}. "
@@ -134,13 +145,15 @@ class ShoppingAssistantAgent:
         return "No significant sales expected soon. It's a good time to buy."
 
     async def _update_preferences(self, args: PreferenceUpdate) -> str:
-        profile = await self.user_profile_manager.get_user_profile(args.user_id)
+        # profile = await self.user_profile_manager.get_user_profile(args.userid)
+        profile = await self.user_profile_manager.get_user_profile(args["userid"])
         if not profile:
-            return f"No profile found for user {args.user_id}"
+            return f"No profile found for user {args.userid}"
 
-        profile.preferences.update(args.preferences)
+        # profile.preferences.update(args.preferences)
+        profile.update_preferences(args["preferences"])
         self.user_profile_manager.update_user_profile(profile)
-        return f"Successfully updated preferences for user {args.user_id}"
+        return f"Successfully updated preferences for user {args.userid}"
 
     def _create_agent(self):
         tools = self.create_tools()

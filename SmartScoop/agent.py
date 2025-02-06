@@ -82,7 +82,7 @@ class ShoppingAssistantAgent:
                 func=lambda args: asyncio.run(
                     self._update_preferences(json.loads(args))
                 ),
-                description='Update user shopping preferences and style profile. should contain "userid" and "preferences" as a dictionary.',
+                description='Update user shopping preferences and style profile. should contain "userid" and "preferences" as a dictionary. and any variable used should be in camel case',
             ),
         ]
 

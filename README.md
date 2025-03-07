@@ -72,6 +72,56 @@ GROQ_API_KEY=your_openai_api_key
 python main.py
 ```
 
+## API Endpoints
+
+### Chat with Shopping Assistant
+
+**Endpoint:**  
+`POST /chat`
+
+**Description:**  
+Send a message to the shopping assistant and receive a response.
+
+**Request Body:**
+
+```json
+{
+  "user_id": "string",
+  "message": "string"
+}
+```
+
+**Response:**
+
+```json
+{
+  "response": "string"
+}
+```
+
+**Example Request:**
+
+```bash
+curl -X POST "http://localhost:8000/chat" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "user_id": "12345",
+           "message": "Find me the best budget smartphones."
+         }'
+```
+
+**Example Response:**
+
+```json
+{
+  "response": "Here are some budget smartphones available on Amazon..."
+}
+```
+
+**Error Response:**
+
+- `500 Internal Server Error`: If there is an issue processing the request.
+
 ## Usage Examples
 
 ### Basic Product Search
@@ -119,28 +169,6 @@ The application can be configured through environment variables or a configurati
 - `AMAZON_API_KEY`: Amazon Product API key
 - `EBAY_API_KEY`: eBay API key
 - `GROQ_API_KEY`: OpenAI API key
-
-## API Documentation
-
-### Product Search API
-
-```python
-async def search_products(query: str, filters: Dict) -> List[Dict]
-```
-
-- `query`: Search query string
-- `filters`: Dictionary of filter parameters
-- Returns: List of product dictionaries
-
-### Recommendation
-
-```python
-def get_recommendations(user_id: str, category: str = None) -> List[Dict]
-```
-
-- `user_id`: User identifier
-- `category`: Optional product category
-- Returns: List of recommended products
 
 ## Security
 

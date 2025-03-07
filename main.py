@@ -10,14 +10,12 @@ import uvicorn
 warnings.filterwarnings("ignore")
 load_dotenv()
 
-# Load configuration
 config = {
     "db_name": os.getenv("DB_NAME", "shopping_assistant.db"),
     "AMAZON_API_KEY": os.getenv("AMAZON_API_KEY"),
     "GROQ_API_KEY": os.getenv("GROQ_API_KEY"),
 }
 
-# Initialize FastAPI app
 app = FastAPI()
 shopping_assistant = ShoppingAssistantApp(config)
 

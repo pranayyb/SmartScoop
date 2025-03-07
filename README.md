@@ -2,12 +2,11 @@
 
 A sophisticated shopping assistant that leverages AI to provide personalized shopping experiences, powered by LangChain and various machine learning components.
 
-## 🌟 Features
+## Features
 
 ### Core Shopping Features
 
 - Multi-platform product search (Amazon, eBay)
-- Price tracking and alerts
 - Personalized product recommendations
 - Budget management
 - Seasonal shopping optimization
@@ -20,7 +19,7 @@ A sophisticated shopping assistant that leverages AI to provide personalized sho
 - Modular and extensible architecture
 - Comprehensive error handling and logging
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -73,7 +72,7 @@ GROQ_API_KEY=your_openai_api_key
 python main.py
 ```
 
-## 📖 Usage Examples
+## Usage Examples
 
 ### Basic Product Search
 
@@ -87,19 +86,7 @@ async def search_products():
     print(response)
 ```
 
-### Setting Up Price Alerts
-
-```python
-async def track_price():
-    app = ShoppingAssistantApp(config)
-    response = await app.handle_message(
-        user_id="user123",
-        message="Alert me when the iPhone 15 Pro drops below $900"
-    )
-    print(response)
-```
-
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 SmartScoop/
@@ -108,6 +95,11 @@ SmartScoop/
 ├── .env                            # Environment variables
 ├── README.md                       # Project documentation
 ├── .gitignore                      # Git-Ignore files
+├── shopping_assistant.db
+├── table_data/
+    ├── data.py
+    ├── users.csv                   # csv containing user information
+    ├── seasonal_discounts.csv      # csv containing discount in the table
 └── SmartScoop/
     ├── __init__.py
     ├── database.py                 # Database management
@@ -119,7 +111,7 @@ SmartScoop/
     └── app.py                      # Application
 ```
 
-## 🔧 Configuration
+## Configuration
 
 The application can be configured through environment variables or a configuration file. Key configuration options include:
 
@@ -128,7 +120,7 @@ The application can be configured through environment variables or a configurati
 - `EBAY_API_KEY`: eBay API key
 - `GROQ_API_KEY`: OpenAI API key
 
-## 📝 API Documentation
+## API Documentation
 
 ### Product Search API
 
@@ -140,17 +132,7 @@ async def search_products(query: str, filters: Dict) -> List[Dict]
 - `filters`: Dictionary of filter parameters
 - Returns: List of product dictionaries
 
-### Price Tracking API
-
-```python
-async def track_price(product_id: str, target_price: float, user_id: str)
-```
-
-- `product_id`: Unique product identifier
-- `target_price`: Price threshold for alerts
-- `user_id`: User identifier
-
-### Recommendation API
+### Recommendation
 
 ```python
 def get_recommendations(user_id: str, category: str = None) -> List[Dict]
@@ -160,7 +142,7 @@ def get_recommendations(user_id: str, category: str = None) -> List[Dict]
 - `category`: Optional product category
 - Returns: List of recommended products
 
-## 🔒 Security
+## Security
 
 - All API keys are stored securely in environment variables
 - User data is encrypted at rest
@@ -168,7 +150,7 @@ def get_recommendations(user_id: str, category: str = None) -> List[Dict]
 - Input validation and sanitization
 - Rate limiting on API endpoints
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 - Integration with more e-commerce platforms
 - Enhanced AR capabilities for virtual try-on
@@ -178,21 +160,21 @@ def get_recommendations(user_id: str, category: str = None) -> List[Dict]
 - Real-time chat support
 - Voice command integration
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👥 Authors
 
-- Pranay Buradkar - _Initial work_
+- Pranay Buradkar
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - GROQ for GPT models
 - LangChain community
 - Contributors and testers
 
-## ❓ Support
+## Support
 
 For support, please:
 

@@ -88,43 +88,32 @@ class ShoppingAssistantAgent:
 
     async def _search_products(self, query_str: str) -> str:
         args = ProductQuery(query=query_str)
-
         all_results = []
         for search_engine in self.product_searches:
             print(args.query)
-
             results = await search_engine.search_products(
                 args.query, args.filters or {}
             )
-
-            print("--------------------------------------------------------")
-            print(results)
-            print("--------------------------------------------------------")
-
+            # print("--------------------------------------------------------")
+            # print(results)
+            # print("--------------------------------------------------------")
             all_results.extend(results)
-
         if not all_results:
             return "No products found matching your criteria."
-
         formatted_results = [
             f"- {product['title']}\n ${product['price']} \nLink: ({product['url']})\n Rating: {product['delivery']}/5 ({product['rating']})"
             for product in all_results
         ]
-
         return "Found these products:\n" + "\n".join(formatted_results)
 
     async def _get_recommendations(self, args: Dict[str, Any]) -> str:
         user_id = args.get("userid")
         category = args.get("category")
-
-        # REMOVE `await` here
         recommendations = self.recommendation_engine.get_recommendations(
             user_id, category
         )
-
         if not recommendations:
             return "No personalized recommendations found."
-
         formatted_recommendations = [
             f"- {rec['name']}: ${rec['price']}\n  Recommendation Confidence: {rec['confidence_score']*100:.1f}%\n  Why: {rec['reason']}"
             for rec in recommendations
@@ -134,13 +123,15 @@ class ShoppingAssistantAgent:
         )
 
     async def _check_seasonal_discount(self, args: ProductInfo) -> str:
-        result = await self.seasonal_optimizer.should_wait_for_sale(args.productInfo)
+        print(args)
+        result = self.seasonal_optimizer.should_wait_for_sale(args['productInfo'])
         if result["should_wait"]:
             return (
-                f"I recommend waiting for {result['sale_event']} on {result['estimated_sale_date']}. "
-                f"Expected discount: {result['expected_discount']}%. "
-                f"Current price: ${result['current_price']:.2f}, "
-                f"Estimated sale price: ${result['estimated_sale_price']:.2f}"
+                # f"I recommend waiting for {result['sale_event']} on {result['estimated_sale_date']}. "
+                # f"Expected discount: {result['expected_discount']}%. "
+                # f"Current price: ${result['current_price']:.2f}, "
+                # f"Estimated sale price: ${result['estimated_sale_price']:.2f}"
+                result
             )
         return "No significant sales expected soon. It's a good time to buy."
 
@@ -149,7 +140,6 @@ class ShoppingAssistantAgent:
         profile = await self.user_profile_manager.get_user_profile(args["userid"])
         if not profile:
             return f"No profile found for user {args.userid}"
-
         # profile.preferences.update(args.preferences)
         profile.update_preferences(args["preferences"])
         self.user_profile_manager.update_user_profile(profile)
@@ -177,18 +167,14 @@ class ShoppingAssistantAgent:
                 input_key="input",
                 output_key="output",
             )
-
             input_dict = {
                 "input": f"User {user_id} requests: {message}",
                 "chat_history": self.memory.chat_memory.messages if self.memory else [],
             }
-
             response = await agent_executor.ainvoke(input_dict)
-
             if isinstance(response, dict) and "output" in response:
                 return response["output"]
             return str(response)
-
         except IndexError as e:
             logging.error(f"Index error in process_message: {str(e)}", exc_info=True)
             raise RuntimeError("Agent configuration error") from e

@@ -25,16 +25,28 @@ class DatabaseManager:
                 """
             )
 
-            # Create price alerts table
+            # # Create price alerts table
+            # cursor.execute(
+            #     """
+            #     CREATE TABLE IF NOT EXISTS price_alerts (
+            #         alert_id TEXT PRIMARY KEY,
+            #         user_id TEXT,
+            #         product_id TEXT,
+            #         target_price REAL,
+            #         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            #         FOREIGN KEY (user_id) REFERENCES users (user_id)
+            #     )
+            #     """
+            # )
+
+            # Create seasonal discounts table
             cursor.execute(
                 """
-                CREATE TABLE IF NOT EXISTS price_alerts (
-                    alert_id TEXT PRIMARY KEY,
-                    user_id TEXT,
-                    product_id TEXT,
-                    target_price REAL,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    FOREIGN KEY (user_id) REFERENCES users (user_id)
+                CREATE TABLE IF NOT EXISTS seasonal_discounts (
+                    event_name TEXT PRIMARY KEY,
+                    discount_percentage REAL,
+                    start_date TIMESTAMP,
+                    end_date TIMESTAMP
                 )
                 """
             )

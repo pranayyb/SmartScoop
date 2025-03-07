@@ -30,32 +30,25 @@ class SeasonalOptimizer:
     def register_event(
         self, event: SeasonalEvent, start_date: datetime, end_date: datetime
     ):
-        """Registers a seasonal event with its start and end dates."""
         self.events[event] = {"start_date": start_date, "end_date": end_date}
 
-    def should_wait_for_sale(self, product_id: str, current_price: float) -> bool:
-        """Determines if waiting for an upcoming sale is beneficial based on expected discounts."""
+    def should_wait_for_sale(self, product_id: str) -> bool:
         upcoming_events = self._get_upcoming_events()
         if not upcoming_events:
             return False
-
         event_discounts = self._calculate_expected_discounts(upcoming_events)
-
-        # Display upcoming events and their discounts
-        print("Upcoming events, discounts, and dates:")
-        for event in event_discounts:
-            print(
-                f"- {event['event'].value.capitalize()}: "
-                f"{event['discount']}% discount "
-                f"(From {event['start_date'].strftime('%d-%m-%Y')} "
-                f"to {event['end_date'].strftime('%d-%m-%Y')})"
-            )
-
+        # print("Upcoming events, discounts, and dates:")
+        # for event in event_discounts:
+        #     print(
+        #         f"- {event['event'].value.capitalize()}: "
+        #         f"{event['discount']}% discount "
+        #         f"(From {event['start_date'].strftime('%d-%m-%Y')} "
+        #         f"to {event['end_date'].strftime('%d-%m-%Y')})"
+        #     )
         # Wait for a sale if any event offers a discount greater than 15%
         return any(event["discount"] > 15 for event in event_discounts)
 
     def _get_upcoming_events(self) -> List[Dict]:
-        """Fetches a list of upcoming events."""
         now = datetime.now()
         return [
             {
@@ -70,7 +63,6 @@ class SeasonalOptimizer:
         ]
 
     def _calculate_expected_discounts(self, events: List[Dict]) -> List[Dict]:
-        """Calculates expected discounts for the upcoming events."""
         return [
             {
                 "event": eve["event"],

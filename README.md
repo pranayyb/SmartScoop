@@ -63,7 +63,7 @@ pip install -r requirements.txt
 DB_NAME=shopping_assistant.db
 AMAZON_API_KEY=your_amazon_api_key
 EBAY_API_KEY=your_ebay_api_key
-GROQ_API_KEY=your_openai_api_key
+GROQ_API_KEY=your_groq_api_key
 ```
 
 ### Running the Application
@@ -168,7 +168,7 @@ The application can be configured through environment variables or a configurati
 - `DB_NAME`: Database file name
 - `AMAZON_API_KEY`: Amazon Product API key
 - `EBAY_API_KEY`: eBay API key
-- `GROQ_API_KEY`: OpenAI API key
+- `GROQ_API_KEY`: GROQ API key
 
 ## Security
 
